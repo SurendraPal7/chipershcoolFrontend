@@ -1,11 +1,10 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../utils/api";
-import { UserContext } from "../context/UserContext"; // ✅ import the context
-
+import { UserContext } from "../context/UserContext"; 
 export default function Login() {
   const navigate = useNavigate();
-  const { login } = useContext(UserContext); // ✅ get login() from context
+  const { login } = useContext(UserContext); 
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,10 +20,8 @@ export default function Login() {
       const res = await api.post("/users/login", { email, password });
       const { token, id, name } = res.data.data;
 
-      // ✅ use context to set global login state (also updates App.jsx immediately)
       login(name, token);
 
-      // still keep userId in localStorage for project references
       localStorage.setItem("userId", id);
 
       navigate("/ide");

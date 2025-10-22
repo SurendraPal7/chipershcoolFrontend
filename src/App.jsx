@@ -11,14 +11,12 @@ export default function App() {
     navigate("/login");
   };
 
-  // ✅ Load Cloudflare Insights only in production
   useEffect(() => {
     if (process.env.NODE_ENV === "production") {
       const script = document.createElement("script");
       script.src = "https://static.cloudflareinsights.com/beacon.min.js";
       script.defer = true;
-      // Optional: add your Cloudflare token if needed
-      // script.setAttribute("data-cf-beacon", '{"token": "YOUR_CLOUDFLARE_TOKEN"}');
+     
       document.body.appendChild(script);
     }
   }, []);
@@ -27,7 +25,6 @@ export default function App() {
     <div className="min-h-screen flex flex-col bg-slate-50">
       <header className="bg-[#f4e9db] border-b shadow-sm">
         <nav className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          {/* Left: Logo + Username */}
           <div className="flex items-center gap-4">
             <Link
               to="/"
@@ -43,7 +40,6 @@ export default function App() {
             )}
           </div>
 
-          {/* Right: Nav Links */}
           <div className="flex items-center gap-3">
             <Link
               to="/"

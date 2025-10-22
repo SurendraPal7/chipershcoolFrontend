@@ -9,7 +9,6 @@ import Register from "./pages/Register";
 import { UserProvider } from "./context/UserContext";
 import "./index.css";
 
-// ✅ Create the root (React 18+)
 const root = createRoot(document.getElementById("root"));
 
 root.render(

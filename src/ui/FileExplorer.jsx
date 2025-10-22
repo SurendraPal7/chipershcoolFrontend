@@ -36,7 +36,6 @@ export default function FileExplorer({ files = [], onCreate, onOpen }) {
               style={{ paddingLeft: `${level * 12 + 8}px` }}
               onClick={() => (isFolder ? toggleFolder(file.id || file._id) : onOpen(file.id || file._id))}
             >
-              {/* Folder/File Icon and Name */}
               <div className="flex items-center gap-1">
                 {isFolder ? (
                   <span>{isExpanded ? "📂" : "📁"}</span>
@@ -57,7 +56,6 @@ export default function FileExplorer({ files = [], onCreate, onOpen }) {
                 )}
               </div>
 
-              {/* Hover Actions */}
               <div className="hidden group-hover:flex gap-1">
                 <button
                   onClick={(e) => {
@@ -85,7 +83,6 @@ export default function FileExplorer({ files = [], onCreate, onOpen }) {
               </div>
             </div>
 
-            {/* Render children if expanded */}
             {isFolder && isExpanded && hasChildren && renderFiles(file.id || file._id, level + 1)}
           </div>
         );

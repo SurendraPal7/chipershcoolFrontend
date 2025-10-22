@@ -1,12 +1,11 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../utils/api";
-import { UserContext } from "../context/UserContext"; // ✅ import global context
+import { UserContext } from "../context/UserContext"; 
 
 export default function Register() {
   const navigate = useNavigate();
-  const { login } = useContext(UserContext); // ✅ use login() from context
-
+  const { login } = useContext(UserContext); 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

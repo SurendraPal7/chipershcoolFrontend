@@ -12,10 +12,8 @@ export default function IDE() {
   const [files, setFiles] = useState([]);
   const [activeFileId, setActiveFileId] = useState(null);
 
-  // minimal initial project template
   useEffect(() => {
     if (!projectId) {
-      // No backend project yet, create initial files locally
       const initialFiles = [
         { id: "f-root", parentId: null, name: "MyProject", type: "folder" },
         { id: "f-src", parentId: "f-root", name: "src", type: "folder" },
@@ -43,14 +41,13 @@ export default function App(){ return (<div style={{padding:20}}><h1>Welcome to 
       setFiles(initialFiles);
       setActiveFileId("app_js");
     } else {
-      // TODO: Load from backend if projectId exists
-      // fetchProjectFiles(projectId)
+      
     }
   }, [projectId]);
 
   const createFile = ({ parentId, name, type }) => {
     const newFile = {
-      id: Date.now().toString(), // simple local id
+      id: Date.now().toString(), 
       parentId,
       name,
       type,
@@ -66,7 +63,6 @@ export default function App(){ return (<div style={{padding:20}}><h1>Welcome to 
 
   const saveProject = async () => {
     try {
-      // Only include projectId if it looks like a valid MongoDB ObjectId (24-char hex)
       const payload = {
         name: projectName,
         files,
@@ -77,7 +73,6 @@ export default function App(){ return (<div style={{padding:20}}><h1>Welcome to 
 
       const response = await api.post("/projects/save", payload);
 
-      // If backend returns a new projectId, save it locally
       if (response.data?.projectId) {
         setProjectId(response.data.projectId);
         localStorage.setItem("projectId", response.data.projectId);

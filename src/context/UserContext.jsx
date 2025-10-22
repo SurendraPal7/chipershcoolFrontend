@@ -8,7 +8,6 @@ export function UserProvider({ children }) {
     token: localStorage.getItem("token") || "",
   });
 
-  // ✅ Listen for localStorage changes
   useEffect(() => {
     const handleStorageChange = () => {
       setUser({
@@ -20,14 +19,12 @@ export function UserProvider({ children }) {
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
-  // ✅ Called after login/register
   const login = (name, token) => {
     localStorage.setItem("userName", name);
     localStorage.setItem("token", token);
     setUser({ name, token });
   };
 
-  // ✅ Called on logout
   const logout = () => {
     localStorage.removeItem("userName");
     localStorage.removeItem("token");

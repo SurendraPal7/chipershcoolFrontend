@@ -19,7 +19,6 @@ export default function EditorPanel({ file, onChange }) {
     );
   }
 
-  // Dynamically build files map for Sandpack
   const filesForSandpack = {
     "/src/index.js": {
       code:
@@ -30,18 +29,15 @@ export default function EditorPanel({ file, onChange }) {
     [`/src/${file.name}`]: { code: localCode },
   };
 
-  // Fallback plain editor (if Sandpack fails or file is not .js)
   const isCodeFile = file.name.endsWith(".js") || file.name.endsWith(".jsx");
 
   return (
     <div className="h-full flex flex-col bg-[#1e1e1e] text-gray-200">
-      {/* ---------- Header ---------- */}
       <div className="px-3 py-2 border-b border-gray-700 bg-[#2d2d2d] flex items-center justify-between">
         <div className="font-medium text-sm">{file.name}</div>
         <div className="text-xs text-gray-400">Editing</div>
       </div>
 
-      {/* ---------- Editor ---------- */}
       <div className="flex-1 overflow-auto">
         {isCodeFile ? (
           <Sandpack
