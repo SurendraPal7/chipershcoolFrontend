@@ -1,0 +1,104 @@
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { api } from "../utils/api";
+import { UserContext } from "../context/UserContext"; // ✅ import global context
+
+export default function Register() {
+  const navigate = useNavigate();
+  const { login } = useContext(UserContext); // ✅ use login() from context
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const res = await api.post("/users/register", { name, email, password });
+      const { token, id } = res.data.data;
+
+      login(name, token);
+
+      localStorage.setItem("userId", id);
+
+      navigate("/ide");
+    } catch (err) {
+      console.error(err);
+      setError(
+        err.response?.data?.message || "Registration failed. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="flex items-center justify-center h-[80vh] bg-slate-50">
+      <form
+        onSubmit={handleRegister}
+        className="bg-white p-8 rounded-2xl shadow-md w-full max-w-sm"
+      >
+        <h2 className="text-2xl font-semibold mb-6 text-center">
+          Create Account
+        </h2>
+
+        {error && (
+          <div className="bg-red-100 text-red-700 p-2 mb-4 rounded">
+            {error}
+          </div>
+        )}
+
+        <label className="block mb-2 text-gray-600 text-sm">Name</label>
+        <input
+          type="text"
+          className="border rounded w-full p-2 mb-4"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+
+        <label className="block mb-2 text-gray-600 text-sm">Email</label>
+        <input
+          type="email"
+          className="border rounded w-full p-2 mb-4"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+
+        <label className="block mb-2 text-gray-600 text-sm">Password</label>
+        <input
+          type="password"
+          className="border rounded w-full p-2 mb-4"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="bg-indigo-600 w-full text-white py-2 rounded hover:bg-indigo-700 transition"
+        >
+          {loading ? "Registering..." : "Register"}
+        </button>
+
+        <p className="text-sm text-center text-gray-500 mt-4">
+          Already have an account?{" "}
+          <button
+            type="button"
+            onClick={() => navigate("/login")}
+            className="text-indigo-600 hover:underline"
+          >
+            Login
+          </button>
+        </p>
+      </form>
+    </div>
+  );
+}
